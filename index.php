@@ -2,28 +2,9 @@
 
 <head>
   <title>PHP Test</title>
-  <style>
-    .calculator_style {
-      float: left;
-      margin: 5px;
-      padding: 15px;
-      max-width: 300px;
-      height: 350px;
-      border: 1px solid black;
-    }
-    
-    .answer_style {
-      float: left;
-      margin: 5px;
-      padding: 15px;
-      min-width: 180px;
-      max-width: 300px;
-      height: 75px;
-      border: 1px solid black;
-      hidden: true;
-    }
-  </style>
-</head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+  </head>
 
 <body>
   <div class="calculator_style">
@@ -70,7 +51,7 @@
         $tip_percent_to_display = 10+5*$x;
         if ($tip_percent_to_display == $previous_tip_percentage) $is_checked = 'CHECKED';
         echo $tip_percent_to_display . "%";
-        echo "<input type=\"radio\" name=\"tip_percentage\" value=$tip_percent_to_display . \"%\" $is_checked>";
+        echo "<input type=\"radio\" name=\"tip_percentage\" value=$tip_percent_to_display . \"%\" $is_checked> ";
     }
     ?>
           </br>
