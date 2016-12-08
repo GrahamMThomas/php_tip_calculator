@@ -56,7 +56,7 @@
     ?>
           </br>
           </br>
-          <input type="submit" name="submit" value="Calculate Now">
+          <input type="submit" name="submit" value="">
           </br>
     </form>
 

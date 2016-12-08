@@ -3,9 +3,10 @@
       margin: 5px;
       padding: 15px;
       max-width: 300px;
-      height: 350px;
+      height: 360px;
       border: 1px solid black;
       font-family: 'Quicksand', sans-serif;
+      background: url(/img/texture.png) repeat 0 0;
     }
     
     .answer_style {
@@ -17,4 +18,12 @@
       height: 60px;
       border: 1px solid black;
       font-family: 'Quicksand', sans-serif;
+      background-color: #e6fff2;
     }
+
+input[type="submit"] {
+    background: url(/img/button.png) repeat 0 0;
+    width: 225px; /* width of image */
+    height: 25px; /* height of image */
+    border:0;
+}
