@@ -6,6 +6,16 @@
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 </head>
 
+<script type="text/javascript">
+  function toggle_other_tip_box(value) {
+    if (value == 'show') {
+      document.getElementById('other_tip').style.display = 'inline';
+    } else {
+      document.getElementById('other_tip').style.display = 'none';
+    }
+  }
+</script>
+
 <body>
   <div class="calculator_style">
     <h3>Tip Calculator</h3></br>
@@ -19,6 +29,8 @@ check_field_reset();
 
 generate_input_fields();
 generate_tip_radio_buttons();
+
+echo "<script>toggle_other_tip_box('hide')</script>";
 
 echo '</br></br><input type="submit" name="submit" value=""></br></form>';
 
@@ -89,8 +101,11 @@ function generate_tip_radio_buttons()
         $tip_percent_to_display = 10+5*$x;
         if ($tip_percent_to_display == $GLOBALS['previous_tip_percentage']) $is_checked = 'CHECKED';
         echo $tip_percent_to_display . "%";
-        echo "<input type=\"radio\" name=\"tip_percentage\" value=$tip_percent_to_display . \"%\" $is_checked> ";
+        echo "<input type=\"radio\" name=\"tip_percentage\" value=$tip_percent_to_display . \"%\" onclick=\"toggle_other_tip_box('hide');\" $is_checked> ";
     }
+    echo "</br>Other";
+    echo "<input type=\"radio\" name=\"tip_percentage\" value='Other' . onclick=\"toggle_other_tip_box('show');\" \"%\"> ";
+    echo '<div id="other_tip"> <input type="text" style="width: 60px" name="other_tip_input" value=\'0\'></div>';
 }
 
 function validate_bill_total()
@@ -123,7 +138,12 @@ function validate_tip_percentage()
 
 function calculate_tip()
 {
-    $tip = $_POST["bill_total"] * $_POST["tip_percentage"] * .01;
+    $tip_percentage = $_POST["tip_percentage"];
+    if ($tip_percentage == "Other")
+    {
+        $tip_percentage = $_POST['other_tip_input'];
+    }
+    $tip = $_POST["bill_total"] * $tip_percentage * .01;
     $total = $_POST["bill_total"] + $tip;
     echo "Tip: ";
     echo money_format('$%i', $tip);
