@@ -21,7 +21,7 @@ The following **optional** features are implemented:
 * [ ] Add support for splitting the tip and total
 
 The following **additional** features are implemented:
-
+* [X] Custom tip percentage only appears when the radio button is pressed.
 
 ## Video Walkthrough
 
@@ -33,7 +33,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-This is the first time I have ever done any web development so I overcame a million different challenges. The biggests ones I have to say are: 
+This is the first time I have ever done any web development so I overcame a million different challenges. The biggest ones I have to say are: 
 + Figuring out how php and html can work together
 + Understanding the form submission
 + Adding persistence to the values
