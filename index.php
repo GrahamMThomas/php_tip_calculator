@@ -29,8 +29,7 @@ check_field_reset();
 
 generate_input_fields();
 generate_tip_radio_buttons();
-
-echo "<script>toggle_other_tip_box('hide')</script>";
+generate_other_tip_radio_button();
 
 echo '</br></br><input type="submit" name="submit" value=""></br></form>';
 
@@ -64,11 +63,13 @@ function check_tip_percentage_field()
     {
         $GLOBALS['error_in_tip_radio'] = true;
         $GLOBALS['previous_tip_percentage'] = 0;
+        $GLOBALS['previous_other_tip_percentage'] = 0;
     }
     else
     {
         $GLOBALS['error_in_tip_radio'] = false;
         $GLOBALS['previous_tip_percentage'] = $_POST['tip_percentage'];
+        $GLOBALS['previous_other_tip_percentage'] = $_POST['other_tip_input'];
     }
 }
 
@@ -78,6 +79,7 @@ function check_field_reset()
     {
         $GLOBALS['previous_bill_total'] = 0;
         $GLOBALS['previous_tip_percentage'] = 0;
+        $GLOBALS['previous_other_tip_percentage'] = 0;
     }
 }
 
@@ -103,9 +105,30 @@ function generate_tip_radio_buttons()
         echo $tip_percent_to_display . "%";
         echo "<input type=\"radio\" name=\"tip_percentage\" value=$tip_percent_to_display . \"%\" onclick=\"toggle_other_tip_box('hide');\" $is_checked> ";
     }
+}
+
+function generate_other_tip_radio_button()
+{
+ $is_checked = "";
+    if ($GLOBALS['previous_tip_percentage'] != '0' && 
+        $GLOBALS['previous_tip_percentage'] != '10' && 
+        $GLOBALS['previous_tip_percentage'] != '15' &&
+        $GLOBALS['previous_tip_percentage'] != '20') 
+        {
+            $is_checked = "CHECKED";
+        }
+
     echo "</br>Other";
-    echo "<input type=\"radio\" name=\"tip_percentage\" value='Other' . onclick=\"toggle_other_tip_box('show');\" \"%\"> ";
-    echo '<div id="other_tip"> <input type="text" style="width: 60px" name="other_tip_input" value=\'0\'></div>';
+    echo "<input type=\"radio\" name=\"tip_percentage\" value='Other' . onclick=\"toggle_other_tip_box('show');\" \"%\" $is_checked> ";
+    echo '<div id="other_tip"> <input type="text" style="width: 60px" name="other_tip_input" value=\'' . $GLOBALS['previous_other_tip_percentage'] . '\'></div>';
+
+    if ($is_checked == "CHECKED")
+    {
+        echo "<script>toggle_other_tip_box('show')</script>";
+    }
+    else{
+        echo "<script>toggle_other_tip_box('hide')</script>";
+    }
 }
 
 function validate_bill_total()
