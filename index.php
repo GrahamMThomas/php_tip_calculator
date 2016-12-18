@@ -25,18 +25,19 @@
 # Allow values to persist between submissions if all values are not filled
 check_bill_total_field();
 check_tip_percentage_field();
-check_field_reset();
+check_split_field();
+#lcheck_field_reset();
 
 generate_input_fields();
 generate_tip_radio_buttons();
 generate_other_tip_radio_button();
-
-echo '</br></br><input type="submit" name="submit" value=""></br></form>';
+generate_split_field();
+echo '<input type="submit" name="submit" value=""></br></form>';
 
 #On Button Submission
 if(isset($_POST["submit"]))
 {
-    if(validate_bill_total() && validate_tip_percentage())
+    if(validate_bill_total() && validate_tip_percentage() && validate_split_percentage())
     {
         echo '<div id="answer_box" class="answer_style">';
         calculate_tip();
@@ -46,7 +47,7 @@ if(isset($_POST["submit"]))
 
 function check_bill_total_field()
 {
-    if (isset($_POST['bill_total']) && intval($_POST['bill_total']) > 0)
+    if (isset($_POST['bill_total']) && intval($_POST['bill_total']) > 0 && is_numeric($_POST['bill_total']))
     {
         $GLOBALS['error_in_bill_total'] = false;
         $GLOBALS['previous_bill_total'] = $_POST['bill_total'];
@@ -73,6 +74,20 @@ function check_tip_percentage_field()
     }
 }
 
+function check_split_field()
+{
+    if (isset($_POST['split_field']))
+    {
+        $GLOBALS['previous_split_field'] = $_POST['split_field'];
+        $GLOBALS['error_in_split_field'] = false;
+    }
+    else
+    {
+        $GLOBALS['previous_split_field'] = 1;
+        $GLOBALS['error_in_split_field'] = true;
+    }
+}
+
 function check_field_reset()
 {
     if(isset($_POST['tip_percentage']) && isset($_POST['bill_total']) && intval($_POST['bill_total']) > 0)
@@ -86,7 +101,7 @@ function check_field_reset()
 function generate_input_fields()
 {
     #Sets color if the previous input was incorrect
-        if ($GLOBALS['error_in_bill_total']) $billing_text_type = "error_text";
+    if ($GLOBALS['error_in_bill_total']) $billing_text_type = "error_text";
     if (!$GLOBALS['error_in_bill_total']) $billing_text_type = "normal_text";
     echo "<p class=\"$billing_text_type\"> Bill Subtotal: <input type=\"text\" name=\"bill_total\"  value=\"" . $GLOBALS['previous_bill_total'] . "\"></p>";
     
@@ -131,10 +146,17 @@ function generate_other_tip_radio_button()
     }
 }
 
+function generate_split_field()
+{
+    if ($GLOBALS['error_in_split_field']) $split_text_type = "error_text";
+    if (!$GLOBALS['error_in_split_field']) $split_text_type = "normal_text";
+    echo "<p class=\"$split_text_type\"> Split #: <input type=\"text\" style=\"width: 120px\" name=\"split_field\" value=" . $GLOBALS['previous_split_field'] . " </br></p>";
+}
+
 function validate_bill_total()
 {
     $bill_total = intval($_POST["bill_total"]);
-    if ($bill_total <= 0)
+    if ($bill_total <= 0 && is_numeric($_POST["bill_total"]))
     {
         echo "Please enter a valid bill total.";
         return false;
@@ -148,13 +170,38 @@ function validate_bill_total()
 
 function validate_tip_percentage()
 {
-    if(isset($_POST["tip_percentage"]))
+    if(!isset($_POST["tip_percentage"]))
+    {
+        echo "Please select a tip percentage.";
+        return false;
+    }
+    if(is_numeric($_POST["tip_percentage"]))
+    {
+        return true;
+    }
+    elseif($_POST["tip_percentage"] == 'Other')
+    {
+        if(is_numeric($_POST['other_tip_input']) && $_POST['other_tip_input'] >= 0)
+        {
+            return true;
+        }
+        else
+        {
+            echo "Please select a tip percentage.";
+            return false;
+        }
+    }
+}
+
+function validate_split_percentage()
+{
+    if(is_numeric($_POST['split_field']) and $_POST['split_field'] >= 1)
     {
         return true;
     }
     else
     {
-        echo "Please select a tip percentage.";
+        echo "Enter valid split total.";
         return false;
     }
 }
