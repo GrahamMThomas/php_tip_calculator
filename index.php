@@ -215,11 +215,24 @@ function calculate_tip()
     }
     $tip = $_POST["bill_total"] * $tip_percentage * .01;
     $total = $_POST["bill_total"] + $tip;
-    echo "Tip: ";
-    echo money_format('$%i', $tip);
-    echo "</br>";
-    echo "Total: ";
-    echo money_format('$%i', $total);
+    if (intval($_POST['split_field']) == 1)
+    {
+        echo "Tip: ";
+        echo money_format('$%i', $tip);
+        echo "</br>";
+        echo "Total: ";
+        echo money_format('$%i', $total);
+    }
+    else
+    {
+        $tip = $tip / intval($_POST['split_field']);
+        $total = $total / intval($_POST['split_field']);
+        echo "Tip Each: ";
+        echo money_format('$%i', $tip);
+        echo "</br>";
+        echo "Total Each: ";
+        echo money_format('$%i', $total);
+    }
 }
 ?>
   </div>

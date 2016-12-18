@@ -4,7 +4,7 @@
 
 Submitted by: **Graham Thomas**
 
-Time spent: **12** hours spent in total
+Time spent: **16** hours spent in total
 
 ## User Stories
 
@@ -18,7 +18,7 @@ The following **required** functionality is complete:
 
 The following **optional** features are implemented:
 * [X] Add support for custom tip percentage
-* [ ] Add support for splitting the tip and total
+* [X] Add support for splitting the tip and total
 
 The following **additional** features are implemented:
 * [X] Custom tip percentage only appears when the radio button is pressed.
